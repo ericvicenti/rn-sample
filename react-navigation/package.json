@@ -1,0 +1,28 @@
+{
+  "name": "react-navigation",
+  "version": "0.1.0",
+  "scripts": {
+    "build": "babel src -d lib"
+  },
+  "dependencies": {
+    "babel-cli": "^6.8.0",
+    "fbjs": "^0.8.1",
+    "react": "^15.0.2",
+    "react-addons-pure-render-mixin": "^15.0.2"
+  },
+  "babel": {
+    "plugins": [
+      "syntax-flow",
+      "transform-flow-strip-types"
+    ],
+    "presets": [
+      "react-native"
+    ]
+  },
+  "main": "lib/react-navigation",
+  "devDependencies": {
+    "babel-plugin-syntax-flow": "^6.8.0",
+    "babel-plugin-transform-flow-strip-types": "^6.8.0",
+    "babel-preset-react-native": "^1.7.0"
+  }
+}
