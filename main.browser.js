@@ -2,13 +2,7 @@
 import React, { AppRegistry } from 'react-native'
 import BlogApp from './BlogApp'
 
-import { createHistory } from 'history'
-
-const histLib = createHistory();
-
 const queryString = require('query-string');
-
-let knownBrowserStack = null;
 
 function setTitle(t) {
   document.title = t;
@@ -19,21 +13,37 @@ function getLastInArray(arr) {
 }
 
 const origHistoryLength = history.length;
+let pushCount = 0;
 
 class BrowserApp extends React.Component {
   constructor() {
     super();
+    const action = this._actionWithLocation(window.location);
+    const navState = BlogApp.navigationReducer(undefined, action);
     this.state = {
-      navigation: undefined,
+      navigation: navState,
     };
   }
 
   componentDidMount() {
-    this._unlistenHistory = histLib.listen(this._handleHistory.bind(this));
+    this._handlePopState = this._handlePopState.bind(this);
+    window.onpopstate = this._handlePopState;
+    const location = BlogApp.locationWithState(this.state.navigation);
+    const path = location.path + (location.params ? "?" + location.params : "");
+    window.history.replaceState(this.state.navigation, null, path);
   }
 
-  componentWillUnmount() {
-    this._unlistenHistory();
+  _handlePopState(e) {
+    if (!e.state) {
+      debugger;
+      return;
+    }
+    const navState = this.state.navigation;
+    const jumpToKey = e.state.children[e.state.index].key;
+    const currentKey = navState.children[navState.index].key;
+    if (currentKey !== jumpToKey) {
+      this._handleAction(BlogApp.Actions.jumpTo(jumpToKey), true);
+    }
   }
 
   _actionWithLocation(location) {
@@ -44,99 +54,47 @@ class BrowserApp extends React.Component {
     });
   }
 
-  _handleHistory(location) {
-    if (!knownBrowserStack) {
-      knownBrowserStack = [ location ];
-      const action = this._actionWithLocation(location);
-      this._handleAction(action);
-      return;
-    }
-
-    if (this.cbOfNextHistoryEvent) {
-      this.cbOfNextHistoryEvent();
-      this.cbOfNextHistoryEvent = null;
-      return;
-    }
-
-    console.log('Observed browser action. ', location.state);
-
-    const foundActiveChild = this.state.navigation.children.find(c => c.key === location.state);
-    if (foundActiveChild) {
-      this._handleAction(BlogApp.Actions.jumpTo(location.state));
-      return;
-    }
-    if (
-      location.action === 'POP' &&
-      history.length >= origHistoryLength
-    ) {
-      const action = this._actionWithLocation(location);
-      this._handleAction(action);
-      if (this._handleAction(BlogApp.Actions.back())) {
-        return;
-      }
-    } else {
-    }
-  }
-
-  _handleAction = (action) => {
-    const nextAppProps = BlogApp.navigationReducer(this.state.navigation, action);
-    if (nextAppProps !== this.state.navigation) {
+  _handleAction = (action, shouldSuppressBrowserNavigation) => {
+    const lastNavState = this.state.navigation;
+    const newNavState = BlogApp.navigationReducer(lastNavState, action);
+    if (newNavState !== lastNavState) {
       this.setState({
-        navigation: nextAppProps,
+        navigation: newNavState,
+      }, () => {
+        if (!shouldSuppressBrowserNavigation) {
+          this._reconcileNavigationState(lastNavState);
+        }
       });
       return true;
     }
     return false;
   };
 
-  replaceLocation({ path, params, key }, cb) {
-    console.log('REPLACE ', key, path, params);
-    this.cbOfNextHistoryEvent = cb;
-    histLib.replace({
-      pathname: path,
-      search: params && '?' + queryString.stringify(params),
-      state: key,
-    });
-  }
-
-  pushLocation({ path, params, key }, cb) {
-    console.log('PUSH ', key, path, params);
-    this.cbOfNextHistoryEvent = cb;
-    histLib.push({
-      pathname: path,
-      search: params && '?' + queryString.stringify(params),
-      state: key,
-    });
-  }
-
-  jumpLocation(dist, cb) {
-    console.log('JUMP ', dist);
-    this.cbOfNextHistoryEvent = cb;
-    histLib.go(dist);
-  }
-
-  componentDidUpdate(lastProps, lastState) {
-    const navigation = this.state.navigation;
-    const lastNavState = lastState.navigation;
-    const newLocation = BlogApp.locationWithState(navigation);
-    const newActiveChild = navigation.children[navigation.index];
-    const newTitle = BlogApp.getTitle(newActiveChild);
-    const indexDelta = lastNavState && navigation.index - lastNavState.index;
-    if (indexDelta > 0) {
-      this.pushLocation(newLocation, () => {
-        setTitle(newTitle);
-      });
-    } else if (indexDelta !== 0) {
-      this.jumpLocation(indexDelta, () => {
-        this.replaceLocation(newLocation, () => {
-          setTitle(newTitle);
-        });
-      });
-    } else {
-      this.replaceLocation(newLocation, () => {
-        setTitle(newTitle);
-      });
+  _reconcileNavigationState(lastNavState) {
+    const navState = this.state.navigation;
+    const newLocation = BlogApp.locationWithState(navState);
+    const activeChild = navState.children[navState.index];
+    const newTitle = BlogApp.getTitle(activeChild);
+    const indexDelta = lastNavState && navState.index - lastNavState.index;
+    const path = newLocation.path + (newLocation.params ? "?" + newLocation.params : "");
+    if (indexDelta === 1) {
+      // simple push:
+      window.history.pushState(navState, null, path);
+      window.document.title = newTitle;
+      pushCount++;
+      return;
     }
+    if (indexDelta < 0) {
+      // Go back, but not so far as to back out of the app
+      const goDelta = Math.max(indexDelta, origHistoryLength - history.length);
+      if (goDelta !== 0) {
+        window.history.go(goDelta);
+      }
+      window.history.replaceState(this.state.navigation, null, path);
+      window.document.title = newTitle;
+      return;
+    }
+    // Unhandled case! This code is not perfect
   }
 
   render() {

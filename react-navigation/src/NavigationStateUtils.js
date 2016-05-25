@@ -64,6 +64,9 @@ function push(state: NavigationParentState, newChildState: NavigationState): Nav
 }
 
 function pop(state: NavigationParentState): NavigationParentState {
+  if (!state) {
+    return state;
+  }
   const lastChildren = state.children;
   if (lastChildren.length <= 1) {
     return state;

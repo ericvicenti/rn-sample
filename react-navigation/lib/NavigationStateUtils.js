@@ -64,6 +64,9 @@ index:lastChildren.length});}
 
 
 function pop(state){
+if(!state){
+return state;}
+
 var lastChildren=state.children;
 if(lastChildren.length<=1){
 return state;}

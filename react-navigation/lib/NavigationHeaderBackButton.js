@@ -28,7 +28,6 @@ ReactNative.Image;var Platform=ReactNative.Platform;var StyleSheet=ReactNative.S
 
 
 
-
 var backBtnSource={
 uri:'https://raw.githubusercontent.com/facebook/react-native/master/Libraries/CustomComponents/NavigationExperimental/assets/back-icon%401x.ios.png'};
 
@@ -43,8 +42,7 @@ React.createElement(Image,{style:styles.button,source:backBtnSource})));};
 
 
 
-NavigationHeaderBackButton.propTypes={
-onNavigate:React.PropTypes.func.isRequired};
+NavigationHeaderBackButton.propTypes={};
 
 
 var styles=StyleSheet.create({

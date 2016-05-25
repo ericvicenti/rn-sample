@@ -3,7 +3,7 @@ import {
   AppRegistry,
 } from 'react-native';
 
-import NativeContainer from './NativeContainer'
+import NativeContainer from './AppContainer'
 
 AppRegistry.registerComponent('app', () => NativeContainer);
 

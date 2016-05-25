@@ -20,3 +20,45 @@ export function parseUrlWithPrefix(url, prefix) {
     params,
   };
 }
+
+// export function createActionRouteMap(configs) {
+//   return {
+//     reduce(state, action) {
+//       const config = configs.find(c => c.type === action.type);
+//       if (config) {
+//         const {type, reducer} = config;
+//         const {children, index} = state;
+//         const lastRoute = children[index];
+//         if (lastRoute.type === type) {
+//           const newState = reducer ? reducer(lastRoute.state, action) : lastRoute.state;
+//           if (newState !== lastRoute.state) {
+//             return StateUtils.replaceAtIndex(state, index, {
+//               ...lastRoute,
+//               state: newState,
+//             });
+//           }
+//         } else {
+//           const pushState = reducer ? reducer(null, action) : action;
+//           if (pushState) {
+//             return StateUtils.push(state, {
+//               key: `${type}_${Date.now()}_${uniqueRouteCount++}`,
+//               type: type,
+//               state: pushState,
+//             });
+//           }
+//         }
+//       }
+//       if (state && state.children.length > 1 && action.type === 'BACK') {
+//         return StateUtils.pop(state);
+//       }
+//       return state;
+//     }
+//     render(props) {
+//       const match = configs.find(c => c.type === props.scene.navigationState.type);
+//       if (config) {
+//         return config.renderer(props);
+//       }
+//       return null;
+//     }
+//   }
+// }

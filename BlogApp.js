@@ -17,6 +17,8 @@ import {
   StateUtils,
 } from './react-navigation/lib/react-navigation';
 
+import ChatApp from './ChatApp';
+
 let count = 0;
 
 const LIPSUM = 'Sed ticidunt egestas odio, in scelerisque mauris sollicitudin ac. In quis nunc erat. Donec nec est risus. Vivamus cursus nisi commodo sodales malesuada. Ut in dictum lacus, et faucibus metus. Aenean laoreet suscipit sapien, sit amet ullamcorper neque elementum et. Quisque nec viverra nisl. Suspendisse eget molestie mauris, ut malesuada massa. Phasellus nec augue vel ante semper porttitor non ac mi. Proin convallis nunc quam, vitae molestie tortor commodo non. Proin ut arcu eros. Nullam vitae tellus id purus eleifend mollis. Donec sed faucibus diam. Nullam sagittis eleifend sem id aliquet. Quisque tempor aliquam nisl. Suspendisse potenti.\n\nInteger interdum tincidunt enim, ut dapibus sapien semper vel. Donec ac velit turpis. Integer lobortis enim ac justo maximus, non accumsan tellus tempus. Praesent sagittis bibendum ipsum, ut vehicula ligula imperdiet ut. Nunc id molestie nisl. Aliquam enim purus, finibus suscipit egestas ac, efficitur id nunc. Nulla facilisi. Integer scelerisque, dolor quis luctus aliquet, ipsum metus fermentum est, suscipit eleifend nibh ante nec neque. Ut odio ex, scelerisque vel vulputate non, fermentum ac nibh.\n\nMorbi dapibus tempor ipsum vel luctus. Nulla dictum fringilla dignissim. Proin quis leo id sem tincidunt tempus id nec sapien. Interdum et malesuada fames ac ante ipsum primis in faucibus. Praesent sapien neque, mollis sit amet ipsum sed, pulvinar condimentum risus. Donec eleifend neque sed purus bibendum, vitae semper magna pharetra. Vivamus posuere nulla eu nibh tincidunt scelerisque. Aenean magna nisi, accumsan et est id, malesuada bibendum magna. Sed dictum magna sed est gravida, ac rutrum odio pulvinar. Mauris congue mi vel nisl convallis, ac blandit libero facilisis. Etiam velit lectus, tristique sed eleifend quis, sollicitudin et turpis. Aliquam suscipit magna nec tellus commodo varius.';
@@ -24,19 +26,19 @@ const BLOG_POSTS = [
   {
     id: 'react-is-fun',
     title: "Isn't React fun!?",
-    content: 'The content of my blog would surely be better than this: ' + LIPSUM,
+    content: 'I hope you enjoyed navigating here on your platform! Enjoy some nonsense: ' + LIPSUM,
     date: '12 May 2016',
   },
   {
     id: 'lets-share-code',
     title: 'Want to share code?',
-    content: 'The content of my blog would surely be better than this: ' + LIPSUM,
+    content: 'I hope you enjoyed navigating here on your platform! Enjoy some nonsense: ' + LIPSUM,
     date: '11 May 2016',
   },
   {
     id: 'lets-blog',
     title: 'I should start a blog',
-    content: 'The content of my blog would surely be better than this: ' + LIPSUM,
+    content: 'I hope you enjoyed navigating here on your platform! Enjoy some nonsense: ' + LIPSUM,
     date: '10 May 2016',
   },
 ]
@@ -99,6 +101,10 @@ class BlogApp extends Component {
         ...action,
       });
     }
+    const pushedChatRoute = ChatApp.pushedRouteWithAction(action);
+    if (pushedChatRoute) {
+      return StateUtils.push(navState, pushedChatRoute);
+    }
     return navState;
   }
 
@@ -109,6 +115,10 @@ class BlogApp extends Component {
     const matchedPost = BLOG_POSTS.find(post => '/' + post.id === path);
     if (matchedPost) {
       return BlogApp.Actions.post(matchedPost.id);
+    }
+    if (path.split('/chat/').length > 1) {
+      const name = path.split('/chat/')[1];
+      return ChatApp.Actions.chat({name});
     }
     return null;
   };
@@ -124,12 +134,16 @@ class BlogApp extends Component {
         }
         return 'Unknown Post';
       default:
+        const chatTitle = ChatApp.getTitle(child);
+        if (chatTitle) {
+          return chatTitle;
+        }
         return 'Unknown Page';
     }
   };
 
   static locationWithState = (state) => {
-    const {path, params, key, type, id} = state.children[state.index];
+    let {path, params, key, type, id} = state.children[state.index];
     return {path, params, key};
   };
 
@@ -152,8 +166,27 @@ class BlogApp extends Component {
           this.props.onDispatch(BlogApp.Actions.back());
         }}
         renderTitleComponent={this._renderTitleComponent}
+        renderRightComponent={this._renderHeaderButton}
       />
     );
+  };
+
+  _renderHeaderButton = (props) => {
+    const route = this.props.navigationState.children[this.props.navigationState.index];
+    const post = BLOG_POSTS.find(p => p.id === route.id);
+    if (route.type === 'Post') {
+      return (
+        <Text
+          onPress={() => {
+            const name = 'Discuss "' + post.title + '"';
+            this.props.onDispatch(ChatApp.Actions.chat({name}))
+          }}
+          style={styles.headerButton}>
+        Comment
+        </Text>
+      );
+    }
+    return null;
   };
 
   _renderTitleComponent = (props) => {
@@ -177,6 +210,10 @@ class BlogApp extends Component {
   };
 
   _renderInnerCard = (props) => {
+    const chatScene = ChatApp.renderScene(this.props.onDispatch, props);
+    if (chatScene) {
+      return chatScene;
+    }
     const navState = props.scene.navigationState;
     if (navState.type === 'Index') {
       return this._renderBlogIndex();
@@ -236,6 +273,10 @@ const styles = StyleSheet.create({
   },
   content: {
     margin: 20,
+  },
+  headerButton: {
+    marginVertical: 15,
+    marginHorizontal: 10,
   },
   infoCell: {},
   infoCellView: {

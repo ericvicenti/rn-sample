@@ -10,9 +10,9 @@ import BlogApp from './BlogApp'
 
 import { parseUrlWithPrefix } from './utils'
 
-const APP_STATE_KEY = 'NavPersistenceKey242zff';
+const APP_STATE_KEY = 'BlogAppNavKeyzasdfasdfssasdfs';
 
-class NativeContainer extends React.Component {
+class AppContainer extends React.Component {
   state = {
     navigationState: undefined,
   };
@@ -81,4 +81,4 @@ class NativeContainer extends React.Component {
   }
 }
 
-module.exports = NativeContainer;
+module.exports = AppContainer;
