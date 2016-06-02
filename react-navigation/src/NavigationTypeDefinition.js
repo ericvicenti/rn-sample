@@ -20,14 +20,11 @@ export type NavigationAnimatedValue = Animated.Value;
 
 export type NavigationGestureDirection = 'horizontal' | 'vertical';
 
-export type NavigationState = {
-  key: string,
-};
 
 export type NavigationParentState = {
   index: number,
   key: string,
-  children: Array<NavigationState>,
+  routes: Array<Object>,
 };
 
 export type NavigationAction = any;
@@ -46,7 +43,7 @@ export type NavigationScene = {
   index: number,
   isStale: boolean,
   key: string,
-  navigationState: NavigationState,
+  navigationState: Object,
 };
 
 export type NavigationSceneRendererProps = {

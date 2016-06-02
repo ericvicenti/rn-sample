@@ -1,184 +1,90 @@
 
 import React, {
   Component,
-  ScrollView,
   StyleSheet,
-  Text,
-  TouchableHighlight,
-  AsyncStorage,
   View,
 } from 'react-native';
 
-// AsyncStorage.clear();
-
-let uniqueCount = 0;
-
+import {createActionRouteMap} from './utils';
 import {
-  Chat,
-  ChatList,
-} from './ChatAppViews';
-
-import {
-  AnimatedView,
+  Transitioner,
   Card,
-  Header,
-  StateUtils,
 } from './react-navigation/lib/react-navigation';
+import ChatAppActionRouteMap from './ChatAppActionRouteMap';
+import ChatAppActions from './ChatAppActions';
 
-
-
-
-
-
-//
-// const ChatAppActionRouteMap = createActionRouteMap([
-//   {
-//     type: 'CHAT',
-//     renderer: (props) => (
-//       <Card
-//         renderScene={({scene}) =>
-//           <Chat
-//             name={scene.navigationState.state.name}
-//             onChatListPress={() => {
-//               props.onDispatch(ChatApp.Actions.chatList());
-//             }}
-//           />
-//         }
-//       />
-//     ),
-//   },
-//   {
-//     type: 'CHAT_LIST',
-//     renderer: (props) => (
-//       <Card
-//         renderScene={({scene}) =>
-//           <ChatList
-//             onChatSelect={(name) => {
-//               props.onDispatch(ChatApp.Actions.chat({name}));
-//             }}
-//           />
-//         }
-//       />
-//     ),
-//   },
-// ]);
-
-
-
-
-
-
-
-const defaultNavState = {
-  children: [
-    {key: 'ChatList', type: 'CHAT_LIST'}
-  ],
-  index: 0,
-};
+const RouteMap = createActionRouteMap(ChatAppActionRouteMap);
 
 class ChatApp extends Component {
 
-  static Actions = {
-    back: () => ({type: 'BACK'}),
-    default: () => ({type: 'CHAT_LIST'}),
-    chatList: () => ({type: 'CHAT_LIST'}),
-    chat: ({name}) => ({type: 'CHAT', name}),
-  };
+  static Actions = ChatAppActions;
+  static reduce = RouteMap.reduce;
 
-  static navigationReducer = (state = defaultNavState, action) => {
-    const routeToPush = ChatApp.pushedRouteWithAction(action);
-    if (routeToPush) {
-      if (!state) {
-        return { children: [routeToPush], index: 0 };
-      }
-      return StateUtils.push(state, routeToPush);
-    }
-    if (action.type === 'BACK') {
-      return StateUtils.pop(state);
-    }
-    return state;
-  };
+  // render() {
+  //   const {dispatch} = this.props;
+  //   const {routes, index} = this.props.state;
+  //   const {type, state} = routes[index];
+  //   const renderer = RouteMap.getRenderer(type);
+  //   if (renderer) {
+  //     return renderer({state, dispatch});
+  //   }
+  //   return null;
+  // }
 
-  static pushedRouteWithAction = (action) => {
-    switch (action.type) {
-      case 'CHAT':
-        return {
-          key: `CHAT_${Date.now()}_${uniqueCount++}`,
-          path: '/chat/'+action.name,
-          ...action,
-        };
-      case 'CHAT_LIST':
-        return {
-          key: `CHAT_LIST_${Date.now()}_${uniqueCount++}`,
-          path: '/',
-          ...action,
-        };
-      default:
-        return null;
-    }
-  };
-
-  static getTitle = (child) => {
-    switch (child.type) {
-      case 'CHAT_LIST':
-        return 'All Chats';
-      case 'CHAT':
-        return child.name;
-      default:
-        return 'Unknown';
-    }
-  }
 
   static actionWithLocation = ({path, params}) => {
     const {name} = params;
+    // navapp://chat?name=Bria
     if (path === '/chat' && name) {
-      return ChatApp.Actions.chat({name});
+      return ChatAppActions.chat({name});
     }
     return null;
   };
 
-  static renderScene = (onDispatch, {scene}) => {
-    const route = scene.navigationState;
-    switch (route.type) {
-      case 'CHAT_LIST':
-        return (
-          <ChatList
-            onChatSelect={(name) => {
-              onDispatch(ChatApp.Actions.chat({name}))
-            }}
-          />
-        );
-      case 'CHAT':
-        return (
-          <Chat
-            name={route.name}
-            onChatListPress={() => {
-              onDispatch(ChatApp.Actions.chatList())
-            }}
-          />
-        );
-      default:
-        return null;
-    }
-  }
 
   render() {
     return (
-      <AnimatedView
-        style={styles.container}
-        navigationState={this.props.navigationState}
-        renderScene={(props) => (
-          <Card
-            renderScene={ChatApp.renderScene.bind(this, this.props.onDispatch)}
-            onBackGesture={() => {
-              this.props.onDispatch(ChatApp.Actions.back());
-            }}
-            {...props}
-          />
+      <Transitioner
+        navigationState={this.props.state}
+        render={(props) => (
+          <View style={styles.container} onLayout={props.onLayout}>
+            {props.scenes.map(this._renderScene.bind(this, props))}
+          </View>
         )}
       />
     );
   }
+
+  _renderScene = (props, scene) => {
+    const {dispatch} = this.props;
+    const {state} = scene.route;
+    return (
+      <Card
+        scene={scene}
+        renderScene={({scene}) => {
+          const renderer = RouteMap.getRenderer(scene.route.type);
+          if (renderer) {
+            return renderer({state, dispatch});
+          }
+          return null;
+        }}
+        onBackGesture={() => {
+          dispatch(ChatAppActions.back());
+        }}
+        {...props}
+      />
+    );
+  };
+
+
+
+
+
+  static getTitle = RouteMap.getTitle;
+
+
+
+
 
 }
 

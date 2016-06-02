@@ -78,7 +78,4 @@ var Animated=require('Animated');
 
 
 
-
-
-
 // Functions.

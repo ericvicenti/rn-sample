@@ -1,6 +1,12 @@
 
 const queryString = require('query-string');
 
+let uniqueRouteCount = 0;
+
+import {
+  StateUtils,
+} from './react-navigation/lib/react-navigation';
+
 export function parseUrlWithPrefix(url, prefix) {
   let query = '?';
   let path = '/';
@@ -21,44 +27,81 @@ export function parseUrlWithPrefix(url, prefix) {
   };
 }
 
-// export function createActionRouteMap(configs) {
-//   return {
-//     reduce(state, action) {
-//       const config = configs.find(c => c.type === action.type);
-//       if (config) {
-//         const {type, reducer} = config;
-//         const {children, index} = state;
-//         const lastRoute = children[index];
-//         if (lastRoute.type === type) {
-//           const newState = reducer ? reducer(lastRoute.state, action) : lastRoute.state;
-//           if (newState !== lastRoute.state) {
-//             return StateUtils.replaceAtIndex(state, index, {
-//               ...lastRoute,
-//               state: newState,
-//             });
-//           }
-//         } else {
-//           const pushState = reducer ? reducer(null, action) : action;
-//           if (pushState) {
-//             return StateUtils.push(state, {
-//               key: `${type}_${Date.now()}_${uniqueRouteCount++}`,
-//               type: type,
-//               state: pushState,
-//             });
-//           }
-//         }
-//       }
-//       if (state && state.children.length > 1 && action.type === 'BACK') {
-//         return StateUtils.pop(state);
-//       }
-//       return state;
-//     }
-//     render(props) {
-//       const match = configs.find(c => c.type === props.scene.navigationState.type);
-//       if (config) {
-//         return config.renderer(props);
-//       }
-//       return null;
-//     }
-//   }
-// }
+export function createActionRouteMap(configs) {
+  return {
+    reduce(state, action) {
+      const config = configs.find(c => c.type === action.type);
+      if (config) {
+        const {type, reducer} = config;
+        let lastRoute;
+        if (state) {
+          lastRoute = state.routes[state.index];
+        }
+        if (lastRoute && lastRoute.type === type) {
+          const newState = reducer ? reducer(lastRoute.state, action) : lastRoute.state;
+          if (newState !== lastRoute.state) {
+            return StateUtils.replaceAtIndex(state, state.index, {
+              ...lastRoute,
+              state: newState,
+            });
+          }
+        } else {
+          const pushState = reducer ? reducer(null, action) : action;
+          if (pushState) {
+            const newRoute = {
+              key: `${type}_${Date.now()}_${uniqueRouteCount++}`,
+              type: type,
+              state: pushState,
+            };
+            if (state) {
+              return StateUtils.push(state, newRoute);
+            } else {
+              return {
+                routes: [newRoute],
+                index: 0,
+              };
+            }
+          }
+        }
+      }
+      if (state && state.routes.length > 1 && action.type === 'BACK') {
+        return StateUtils.pop(state);
+      }
+      if (action.type === 'JUMP_TO') {
+        const destRoute = state.routes.find(r => r.key === action.key);
+        const destIndex = state.routes.indexOf(destRoute);
+        if (destRoute && state.index !== destIndex) {
+          return {
+            ...state,
+            index: destIndex,
+          };
+        }
+      }
+      return state;
+    },
+    getTitle(route) {
+      const config = configs.find(c => c.type === route.state.type);
+      if (config) {
+        return config.getTitle(route.state);
+      }
+      return null;
+    },
+    getRenderer(type) {
+      const config = configs.find(c => c.type === type);
+      if (config) {
+        return config.renderer;
+      }
+      return null;
+    },
+  };
+}
+
+export const BaseActions = {
+  back: () => ({
+    type: 'BACK',
+  }),
+  jumpTo: (key) => ({
+    type: 'JUMP_TO',
+    key,
+  }),
+};

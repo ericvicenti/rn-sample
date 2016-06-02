@@ -6,79 +6,83 @@ import React, {
   Platform,
 } from 'react-native';
 
-import BlogApp from './BlogApp'
+import ArticlesApp from './ArticlesApp'
+import ChatApp from './ChatApp'
+
+const MainApp = ArticlesApp;
+
+// For a simpler example:
+// const MainApp = ChatApp;
 
 import { parseUrlWithPrefix } from './utils'
 
-const APP_STATE_KEY = 'BlogAppNavKeyzasdfasdfssasdfs';
+const APP_STATE_KEY = 'ArticlesAppState';
 
 class AppContainer extends React.Component {
   state = {
-    navigationState: undefined,
+    appState: undefined,
   };
+  render() {
+    if (!this.state.appState) {
+      return null;
+    }
+    return (
+      <MainApp
+        dispatch={this._handleAction}
+        state={this.state.appState}
+      />
+    );
+  }
+
+  _handleAction = (action) => {
+    const newAppState = MainApp.reduce(this.state.appState, action);
+    if (newAppState !== this.state.appState) {
+      this.setState({
+        appState: newAppState,
+      });
+      AsyncStorage.setItem(APP_STATE_KEY, JSON.stringify(newAppState));
+      return true;
+    }
+    return false;
+  };
+
   componentDidMount() {
     Linking.getInitialURL().then(url => {
-      const linkAction = url && BlogApp.actionWithLocation(parseUrlWithPrefix(url, 'navapp:/'));
+      const linkAction = url && MainApp.actionWithLocation(parseUrlWithPrefix(url, 'navapp:/'));
       AsyncStorage.getItem(APP_STATE_KEY, (err, savedPropsString) => {
         const savedProps = !err && savedPropsString && JSON.parse(savedPropsString);
         if (savedProps && linkAction) {
           this.setState({
-            navigationState: BlogApp.navigationReducer(savedProps, linkAction),
+            appState: MainApp.reduce(savedProps, linkAction),
           });
         } else if (savedProps) {
           this.setState({
-            navigationState: savedProps,
+            appState: savedProps,
           });
         } else {
           this.setState({
-            navigationState: BlogApp.navigationReducer(undefined, BlogApp.Actions.default()),
+            appState: MainApp.reduce(undefined, MainApp.Actions.default()),
           })
         }
       });
     });
-    Platform.OS !== 'android' &&
-      Linking.addEventListener('url', this._handleOpenURL);
-    Platform.OS === 'android' &&
-      BackAndroid.addEventListener('hardwareBackPress', this._handleBack);
+    Linking.addEventListener('url', this._handleOpenURL);
+    BackAndroid.addEventListener('hardwareBackPress', this._handleBack);
   }
   componentWillUnmount() {
-    Platform.OS !== 'android' &&
-      Linking.removeEventListener('url', this._handleOpenURL);
-    Platform.OS === 'android' &&
-      BackAndroid.removeEventListener('hardwareBackPress', this._handleBack);
+    Linking.removeEventListener('url', this._handleOpenURL);
+    BackAndroid.removeEventListener('hardwareBackPress', this._handleBack);
   }
   _handleOpenURL = (event) => {
     const location = parseUrlWithPrefix(event.url, 'navapp:/');
-    const linkAction = BlogApp.actionWithLocation(location);
+    const linkAction = MainApp.actionWithLocation(location);
     if (linkAction) {
       this._handleAction(linkAction);
     }
   };
   _handleBack = () => {
-    return this._handleAction(BlogApp.Actions.back());
+    return this._handleAction(MainApp.Actions.back());
   };
-  _handleAction = (action) => {
-    const nextNavState = BlogApp.navigationReducer(this.state.navigationState, action);
-    if (nextNavState !== this.state.navigationState) {
-      this.setState({
-        navigationState: nextNavState,
-      });
-      AsyncStorage.setItem(APP_STATE_KEY, JSON.stringify(nextNavState));
-      return true;
-    }
-    return false;
-  };
-  render() {
-    if (!this.state.navigationState) {
-      return null;
-    }
-    return (
-      <BlogApp
-        onDispatch={this._handleAction}
-        navigationState={this.state.navigationState}
-      />
-    );
-  }
 }
 
 module.exports = AppContainer;

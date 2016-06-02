@@ -4,4 +4,5 @@ module.exports = {
   AnimatedView: require('./NavigationAnimatedView'),
   Card: require('./NavigationCard'),
   Header: require('./NavigationHeader'),
+  Transitioner: require('./NavigationTransitioner'),
 };

@@ -43,7 +43,7 @@ key:PropTypes.string.isRequired});
 var navigationParentState=PropTypes.shape({
 index:PropTypes.number.isRequired,
 key:PropTypes.string.isRequired,
-children:PropTypes.arrayOf(navigationState)});
+routes:PropTypes.arrayOf(navigationState)});
 
 
 /* NavigationLayout */

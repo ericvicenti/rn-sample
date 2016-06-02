@@ -43,7 +43,7 @@ const navigationState = PropTypes.shape({
 const navigationParentState = PropTypes.shape({
   index: PropTypes.number.isRequired,
   key: PropTypes.string.isRequired,
-  children: PropTypes.arrayOf(navigationState),
+  routes: PropTypes.arrayOf(navigationState),
 });
 
 /* NavigationLayout */
@@ -60,7 +60,7 @@ const scene = PropTypes.shape({
   index: PropTypes.number.isRequired,
   isStale: PropTypes.bool.isRequired,
   key: PropTypes.string.isRequired,
-  navigationState,
+  navigationState: navigationState,
 });
 
 /* NavigationSceneRendererProps */

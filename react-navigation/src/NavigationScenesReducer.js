@@ -61,8 +61,8 @@ function areScenesShallowEqual(
     one.key === two.key &&
     one.index === two.index &&
     one.isStale === two.isStale &&
-    one.navigationState === two.navigationState &&
-    one.navigationState.key === two.navigationState.key
+    one.route === two.route &&
+    one.route.key === two.route.key
   );
 }
 
@@ -86,17 +86,17 @@ function NavigationScenesReducer(
   });
 
   const nextKeys = new Set();
-  nextState.children.forEach((navigationState, index) => {
-    const key = SCENE_KEY_PREFIX + navigationState.key;
+  nextState.routes.forEach((route, index) => {
+    const key = SCENE_KEY_PREFIX + route.key;
     const scene = {
       index,
       isStale: false,
       key,
-      navigationState,
+      route,
     };
     invariant(
       !nextKeys.has(key),
-      `navigationState.children[${index}].key "${key}" conflicts with` +
+      `navigationState.routes[${index}].key "${key}" conflicts with` +
         'another child!'
     );
     nextKeys.add(key);
@@ -110,9 +110,9 @@ function NavigationScenesReducer(
   });
 
   if (prevState) {
-    // Look at the previous children and classify any removed scenes as `stale`.
-    prevState.children.forEach((navigationState, index) => {
-      const key = SCENE_KEY_PREFIX + navigationState.key;
+    // Look at the previous routes and classify any removed scenes as `stale`.
+    prevState.routes.forEach((route, index) => {
+      const key = SCENE_KEY_PREFIX + route.key;
       if (freshScenes.has(key)) {
         return;
       }
@@ -120,7 +120,7 @@ function NavigationScenesReducer(
         index,
         isStale: true,
         key,
-        navigationState,
+        route,
       });
     });
   }

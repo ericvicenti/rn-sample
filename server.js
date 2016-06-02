@@ -2,10 +2,10 @@
 // this is aliased to react-native-web in webpack.config.js :
 import React, { AppRegistry } from 'react-native'
 
-import BlogApp from './BlogApp'
+import ArticlesApp from './ArticlesApp'
 import WebContainer from './WebContainer'
 
-AppRegistry.registerComponent('App', () => BlogApp)
+AppRegistry.registerComponent('App', () => ArticlesApp)
 
 const express = require('express');
 const app = express();
@@ -14,24 +14,31 @@ app.use('/dist', express.static('webdist'));
 
 app.get('*', (req, res) => {
 
-  const initialAction = BlogApp.actionWithLocation({
+  const initialAction = ArticlesApp.actionWithLocation({
     path: req.path,
     params: req.query,
   });
 
-  const navigationState = BlogApp.navigationReducer(
+  let state = ArticlesApp.reduce(
     undefined,
-    initialAction || BlogApp.Actions.default()
+    ArticlesApp.Actions.default()
   );
+
+  if (initialAction) {
+    state = ArticlesApp.reduce(
+      state,
+      initialAction
+    );
+  }
 
   const { html, style, styleElement } = AppRegistry.prerenderApplication('App', {
     initialProps: {
-      navigationState,
+      state,
     },
   });
 
-  const activeChild = navigationState.children[navigationState.index];
-  const title = BlogApp.getTitle(activeChild);
+  const route = state.routes[state.index];
+  const title = ArticlesApp.getTitle(route);
 
   const renderedApplicationHTML = React.renderToStaticMarkup(
     <WebContainer

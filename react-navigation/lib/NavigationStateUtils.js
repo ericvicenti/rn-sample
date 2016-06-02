@@ -20,10 +20,10 @@ var invariant=require('fbjs/lib/invariant');
 function getParent(state){
 if(
 state instanceof Object&&
-state.children instanceof Array&&
-state.children[0]!==undefined&&
+state.routes instanceof Array&&
+state.routes[0]!==undefined&&
 typeof state.index==='number'&&
-state.children[state.index]!==undefined)
+state.routes[state.index]!==undefined)
 {
 return state;}
 
@@ -35,7 +35,7 @@ var parentState=getParent(state);
 if(!parentState){
 return null;}
 
-var childState=parentState.children.find(function(child){return child.key===key;});
+var childState=parentState.routes.find(function(child){return child.key===key;});
 return childState||null;}
 
 
@@ -44,7 +44,7 @@ var parentState=getParent(state);
 if(!parentState){
 return null;}
 
-var index=parentState.children.map(function(child){return child.key;}).indexOf(key);
+var index=parentState.routes.map(function(child){return child.key;}).indexOf(key);
 if(index===-1){
 return null;}
 
@@ -52,10 +52,10 @@ return index;}
 
 
 function push(state,newChildState){
-var lastChildren=state.children;
+var lastChildren=state.routes;
 return _extends({},
 state,{
-children:[].concat(_toConsumableArray(
+routes:[].concat(_toConsumableArray(
 lastChildren),[
 newChildState]),
 
@@ -67,13 +67,13 @@ function pop(state){
 if(!state){
 return state;}
 
-var lastChildren=state.children;
+var lastChildren=state.routes;
 if(lastChildren.length<=1){
 return state;}
 
 return _extends({},
 state,{
-children:lastChildren.slice(0,lastChildren.length-1),
+routes:lastChildren.slice(0,lastChildren.length-1),
 index:lastChildren.length-2});}
 
 
@@ -83,14 +83,14 @@ var parentState=getParent(state);
 if(!parentState){
 return state;}
 
-var children=nextChildren||parentState.children;
+var routes=nextChildren||parentState.routes;
 var index=nextIndex==null?parentState.index:nextIndex;
-if(children===parentState.children&&index===parentState.index){
+if(routes===parentState.routes&&index===parentState.index){
 return state;}
 
 return _extends({},
 parentState,{
-children:children,
+routes:routes,
 index:index});}
 
 
@@ -98,7 +98,7 @@ index:index});}
 function set(state,key,nextChildren,nextIndex){
 if(!state){
 return {
-children:nextChildren,
+routes:nextChildren,
 index:nextIndex,
 key:key};}
 
@@ -106,17 +106,17 @@ key:key};}
 var parentState=getParent(state);
 if(!parentState){
 return {
-children:nextChildren,
+routes:nextChildren,
 index:nextIndex,
 key:key};}
 
 
-if(nextChildren===parentState.children&&nextIndex===parentState.index&&key===parentState.key){
+if(nextChildren===parentState.routes&&nextIndex===parentState.index&&key===parentState.key){
 return parentState;}
 
 return _extends({},
 parentState,{
-children:nextChildren,
+routes:nextChildren,
 index:nextIndex,
 key:key});}
 
@@ -138,7 +138,7 @@ var parentState=getParent(state);
 if(!parentState){
 return state;}
 
-var index=parentState.children.indexOf(parentState.children.find(function(child){return child.key===key;}));
+var index=parentState.routes.indexOf(parentState.routes.find(function(child){return child.key===key;}));
 invariant(
 index!==-1,
 'Cannot find child with matching key in this NavigationState');
@@ -154,16 +154,16 @@ var parentState=getParent(state);
 if(!parentState){
 return state;}
 
-var children=[].concat(_toConsumableArray(parentState.children));
-var index=parentState.children.indexOf(parentState.children.find(function(child){return child.key===key;}));
+var routes=[].concat(_toConsumableArray(parentState.routes));
+var index=parentState.routes.indexOf(parentState.routes.find(function(child){return child.key===key;}));
 invariant(
 index!==-1,
 'Cannot find child with matching key in this NavigationState');
 
-children[index]=newState;
+routes[index]=newState;
 return _extends({},
 parentState,{
-children:children});}
+routes:routes});}
 
 
 
@@ -172,11 +172,11 @@ var parentState=getParent(state);
 if(!parentState){
 return state;}
 
-var children=[].concat(_toConsumableArray(parentState.children));
-children[index]=newState;
+var routes=[].concat(_toConsumableArray(parentState.routes));
+routes[index]=newState;
 return _extends({},
 parentState,{
-children:children});}
+routes:routes});}
 
 
 

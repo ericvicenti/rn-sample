@@ -49,18 +49,12 @@ export function Chat(props) {
         <View style={styles.chatBubbles}>
           <View style={styles.chatBubble}>
             <Text style={styles.chatBubbleText}>
-              Hello world, they see me chatting up a storm!
-              Hello world, they see me chatting up a storm!
-              Hello world, they see me chatting up a storm!
-              Hello world, they see me chatting up a storm!
+              In quis nunc erat. Donec nec est risus. Vivamus cursus nisi commodo sodales malesuada. Ut in dictum lacus, et faucibus metus. Aenean laoreet suscipit sapien. Ut malesuada massa.
             </Text>
           </View>
           <View style={styles.chatBubble}>
             <Text style={styles.chatBubbleText}>
-              Hello world, they see me chatting up a storm!
-              Hello world, they see me chatting up a storm!
-              Hello world, they see me chatting up a storm!
-              Hello world, they see me chatting up a storm!
+              In quis nunc erat. Donec nec est risus. Vivamus cursus nisi commodo sodales malesuada. Ut in dictum lacus, et faucibus metus. Aenean laoreet suscipit sapien. Ut malesuada massa.
             </Text>
           </View>
         </View>
@@ -69,10 +63,7 @@ export function Chat(props) {
         <View style={styles.chatBubbles}>
           <View style={[styles.chatBubble, styles.chatBubbleReversed]}>
             <Text style={[styles.chatBubbleText, styles.chatBubbleTextReversed]}>
-              Hello world, they see me chatting up a storm!
-              Hello world, they see me chatting up a storm!
-              Hello world, they see me chatting up a storm!
-              Hello world, they see me chatting up a storm!
+              In quis nunc erat. Donec nec est risus. Vivamus cursus nisi commodo sodales malesuada. Ut in dictum lacus, et faucibus metus. Aenean laoreet suscipit sapien. Ut malesuada massa.
             </Text>
           </View>
         </View>
