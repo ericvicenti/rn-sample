@@ -16,6 +16,7 @@
     "json-loader": "^0.5.4",
     "query-string": "^4.1.0",
     "react": "^0.14.8",
+    "react-addons-pure-render-mixin": "^15.1.0",
     "react-dom": "^0.14.8",
     "react-native": "^0.22.2",
     "react-native-web": "0.0.21"
