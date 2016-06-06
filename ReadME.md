@@ -1,6 +1,6 @@
 # Cross-Platform Navigation Demo
 
-Run the same code on the web, iOS, and Android!
+Run the same code on the web, iOS, and Android!  See a demonstration in my [React Europe 2016 talk](https://www.youtube.com/watch?v=dOSwHABLvdM).
 
 ### Usage
 
@@ -33,6 +33,6 @@ Ideas for improvement are welcomed!
 
 ### Contributions and Maintenance
 
-This was created as a demo for React-Europe 2016.
+This was created as a demo for [my talk at React-Europe 2016](https://www.youtube.com/watch?v=dOSwHABLvdM).
 
 PRs are welcomed, and issues can be used for discussion, but there is no long-term maintenance plan.
