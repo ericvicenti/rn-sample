@@ -37,7 +37,7 @@ var NavigationCardStackStyleInterpolator=require('NavigationCardStackStyleInterp
 var NavigationContainer=require('NavigationContainer');
 var NavigationCardStackPanResponder=require('NavigationCardStackPanResponder');
 var NavigationPropTypes=require('NavigationPropTypes');
-var React=require('React');
+var React=require('react');
 var ReactComponentWithPureRenderMixin=require('ReactComponentWithPureRenderMixin');
 var StyleSheet=require('StyleSheet');
 
