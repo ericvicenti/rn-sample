@@ -29,7 +29,7 @@
  *
  * 
  */
-'use strict';var _extends=Object.assign||function(target){for(var i=1;i<arguments.length;i++){var source=arguments[i];for(var key in source){if(Object.prototype.hasOwnProperty.call(source,key)){target[key]=source[key];}}}return target;};var _createClass=function(){function defineProperties(target,props){for(var i=0;i<props.length;i++){var descriptor=props[i];descriptor.enumerable=descriptor.enumerable||false;descriptor.configurable=true;if("value" in descriptor)descriptor.writable=true;Object.defineProperty(target,descriptor.key,descriptor);}}return function(Constructor,protoProps,staticProps){if(protoProps)defineProperties(Constructor.prototype,protoProps);if(staticProps)defineProperties(Constructor,staticProps);return Constructor;};}();
+'use strict';var _extends=Object.assign||function(target){for(var i=1;i<arguments.length;i++){var source=arguments[i];for(var key in source){if(Object.prototype.hasOwnProperty.call(source,key)){target[key]=source[key];}}}return target;};var _createClass=function(){function defineProperties(target,props){for(var i=0;i<props.length;i++){var descriptor=props[i];descriptor.enumerable=descriptor.enumerable||false;descriptor.configurable=true;if("value"in descriptor)descriptor.writable=true;Object.defineProperty(target,descriptor.key,descriptor);}}return function(Constructor,protoProps,staticProps){if(protoProps)defineProperties(Constructor.prototype,protoProps);if(staticProps)defineProperties(Constructor,staticProps);return Constructor;};}();
 
 
 
@@ -38,7 +38,7 @@
 
 
 
-var _reactAddonsPureRenderMixin=require('react-addons-pure-render-mixin');var _reactAddonsPureRenderMixin2=_interopRequireDefault(_reactAddonsPureRenderMixin);function _interopRequireDefault(obj){return obj&&obj.__esModule?obj:{default:obj};}function _classCallCheck(instance,Constructor){if(!(instance instanceof Constructor)){throw new TypeError("Cannot call a class as a function");}}function _possibleConstructorReturn(self,call){if(!self){throw new ReferenceError("this hasn't been initialised - super() hasn't been called");}return call&&(typeof call==="object"||typeof call==="function")?call:self;}function _inherits(subClass,superClass){if(typeof superClass!=="function"&&superClass!==null){throw new TypeError("Super expression must either be null or a function, not "+typeof superClass);}subClass.prototype=Object.create(superClass&&superClass.prototype,{constructor:{value:subClass,enumerable:false,writable:true,configurable:true}});if(superClass)Object.setPrototypeOf?Object.setPrototypeOf(subClass,superClass):subClass.__proto__=superClass;}var React=require('React');var ReactNative=require('react-native');var NavigationHeaderTitle=require('./NavigationHeaderTitle');var NavigationHeaderBackButton=require('./NavigationHeaderBackButton');var NavigationPropTypes=require('./NavigationPropTypes');var NavigationHeaderStyleInterpolator=require('./NavigationHeaderStyleInterpolator');var 
+var _reactAddonsPureRenderMixin=require('react-addons-pure-render-mixin');var _reactAddonsPureRenderMixin2=_interopRequireDefault(_reactAddonsPureRenderMixin);function _interopRequireDefault(obj){return obj&&obj.__esModule?obj:{default:obj};}function _classCallCheck(instance,Constructor){if(!(instance instanceof Constructor)){throw new TypeError("Cannot call a class as a function");}}function _possibleConstructorReturn(self,call){if(!self){throw new ReferenceError("this hasn't been initialised - super() hasn't been called");}return call&&(typeof call==="object"||typeof call==="function")?call:self;}function _inherits(subClass,superClass){if(typeof superClass!=="function"&&superClass!==null){throw new TypeError("Super expression must either be null or a function, not "+typeof superClass);}subClass.prototype=Object.create(superClass&&superClass.prototype,{constructor:{value:subClass,enumerable:false,writable:true,configurable:true}});if(superClass)Object.setPrototypeOf?Object.setPrototypeOf(subClass,superClass):subClass.__proto__=superClass;}var React=require('React');var ReactNative=require('react-native');var NavigationHeaderTitle=require('./NavigationHeaderTitle');var NavigationHeaderBackButton=require('./NavigationHeaderBackButton');var NavigationPropTypes=require('./NavigationPropTypes');var NavigationHeaderStyleInterpolator=require('./NavigationHeaderStyleInterpolator');var
 
 
 Animated=
@@ -71,10 +71,10 @@ ReactNative.Animated;var Platform=ReactNative.Platform;var StyleSheet=ReactNativ
 
 
 var APPBAR_HEIGHT=Platform.OS==='ios'?44:56;
-var STATUSBAR_HEIGHT=Platform.OS==='ios'?20:0;var 
-PropTypes=React.PropTypes;var 
+var STATUSBAR_HEIGHT=Platform.OS==='ios'?20:0;var
+PropTypes=React.PropTypes;var
 
-NavigationHeader=function(_React$Component){_inherits(NavigationHeader,_React$Component);function NavigationHeader(){_classCallCheck(this,NavigationHeader);return _possibleConstructorReturn(this,Object.getPrototypeOf(NavigationHeader).apply(this,arguments));}_createClass(NavigationHeader,[{key:'shouldComponentUpdate',value:function shouldComponentUpdate(
+NavigationHeader=function(_React$Component){_inherits(NavigationHeader,_React$Component);function NavigationHeader(){_classCallCheck(this,NavigationHeader);return _possibleConstructorReturn(this,(NavigationHeader.__proto__||Object.getPrototypeOf(NavigationHeader)).apply(this,arguments));}_createClass(NavigationHeader,[{key:'shouldComponentUpdate',value:function shouldComponentUpdate(
 
 
 
@@ -107,9 +107,9 @@ nextProps,nextState){
 return _reactAddonsPureRenderMixin2.default.shouldComponentUpdate.call(
 this,
 nextProps,
-nextState);}},{key:'render',value:function render()
+nextState);
 
-
+}},{key:'render',value:function render()
 
 {var _this2=this;var _props=
 this.props;var scenes=_props.scenes;var style=_props.style;var viewProps=_props.viewProps;
@@ -117,17 +117,17 @@ this.props;var scenes=_props.scenes;var style=_props.style;var viewProps=_props.
 var scenesProps=scenes.map(function(scene){
 var props=NavigationPropTypes.extractSceneRendererProps(_this2.props);
 props.scene=scene;
-return props;});
+return props;
+});
 
-
-return (
+return(
 React.createElement(View,_extends({style:[styles.appbar,style]},viewProps),
 scenesProps.map(this._renderLeft,this),
 scenesProps.map(this._renderTitle,this),
-scenesProps.map(this._renderRight,this)));}},{key:'_renderLeft',value:function _renderLeft(
+scenesProps.map(this._renderRight,this)));
 
 
-
+}},{key:'_renderLeft',value:function _renderLeft(
 
 props){
 return this._renderSubView(
@@ -135,9 +135,9 @@ props,
 'left',
 this.props.renderLeftComponent,
 NavigationHeaderStyleInterpolator.forLeft,
-this.props.onBackPress);}},{key:'_renderTitle',value:function _renderTitle(
+this.props.onBackPress);
 
-
+}},{key:'_renderTitle',value:function _renderTitle(
 
 props){
 return this._renderSubView(
@@ -145,9 +145,9 @@ props,
 'title',
 this.props.renderTitleComponent,
 NavigationHeaderStyleInterpolator.forCenter,
-this.props.onBackPress);}},{key:'_renderRight',value:function _renderRight(
+this.props.onBackPress);
 
-
+}},{key:'_renderRight',value:function _renderRight(
 
 props){
 return this._renderSubView(
@@ -155,9 +155,9 @@ props,
 'right',
 this.props.renderRightComponent,
 NavigationHeaderStyleInterpolator.forRight,
-this.props.onBackPress);}},{key:'_renderSubView',value:function _renderSubView(
+this.props.onBackPress);
 
-
+}},{key:'_renderSubView',value:function _renderSubView(
 
 
 props,
@@ -165,11 +165,11 @@ name,
 renderer,
 styleInterpolator,
 onBackPress)
-{var 
+{var
 
 scene=
 
-props.scene;var navigationState=props.navigationState;var 
+props.scene;var navigationState=props.navigationState;var
 
 
 index=
@@ -182,16 +182,16 @@ var offset=navigationState.index-index;
 if(Math.abs(offset)>2){
 // Scene is far away from the active scene. Hides it to avoid unnecessary
 // rendering.
-return null;}
-
+return null;
+}
 
 var subView=renderer(props,onBackPress);
 if(subView===null){
-return null;}
-
+return null;
+}
 
 var pointerEvents=offset!==0||isStale?'none':'box-none';
-return (
+return(
 React.createElement(Animated.View,{
 pointerEvents:pointerEvents,
 key:name+'_'+key,
@@ -199,10 +199,10 @@ style:[
 styles[name],
 styleInterpolator(props)]},
 
-subView));}}]);return NavigationHeader;}(React.Component);NavigationHeader.defaultProps={renderTitleComponent:function renderTitleComponent(props){var navigationState=props.navigationState;var title=String(navigationState.title||'');return React.createElement(NavigationHeaderTitle,null,title);},renderLeftComponent:function renderLeftComponent(props,onBackPress){return props.scene.index>0?React.createElement(NavigationHeaderBackButton,{onBackPress:onBackPress}):null;},renderRightComponent:function renderRightComponent(props){return null;}};NavigationHeader.propTypes=_extends({},NavigationPropTypes.SceneRenderer,{renderLeftComponent:PropTypes.func,renderRightComponent:PropTypes.func,renderTitleComponent:PropTypes.func,style:View.propTypes.style,viewProps:PropTypes.shape(View.propTypes)});
+subView));
 
 
-
+}}]);return NavigationHeader;}(React.Component);NavigationHeader.defaultProps={renderTitleComponent:function renderTitleComponent(props){var navigationState=props.navigationState;var title=String(navigationState.title||'');return React.createElement(NavigationHeaderTitle,null,title);},renderLeftComponent:function renderLeftComponent(props,onBackPress){return props.scene.index>0?React.createElement(NavigationHeaderBackButton,{onBackPress:onBackPress}):null;},renderRightComponent:function renderRightComponent(props){return null;}};NavigationHeader.propTypes=_extends({},NavigationPropTypes.SceneRenderer,{renderLeftComponent:PropTypes.func,renderRightComponent:PropTypes.func,renderTitleComponent:PropTypes.func,style:View.propTypes.style,viewProps:PropTypes.shape(View.propTypes)});
 
 
 var styles=StyleSheet.create({
@@ -215,7 +215,7 @@ flexDirection:'row',
 height:APPBAR_HEIGHT+STATUSBAR_HEIGHT,
 justifyContent:'flex-start',
 left:0,
-marginBottom:16, // This is needed for elevation shadow
+marginBottom:16,// This is needed for elevation shadow
 // elevation: Platform.OS === 'android' ? 2 : undefined,
 position:'absolute',
 right:0,

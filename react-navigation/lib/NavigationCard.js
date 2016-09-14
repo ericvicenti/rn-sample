@@ -29,7 +29,7 @@
  *
  * 
  */
-'use strict';var _extends=Object.assign||function(target){for(var i=1;i<arguments.length;i++){var source=arguments[i];for(var key in source){if(Object.prototype.hasOwnProperty.call(source,key)){target[key]=source[key];}}}return target;};var _createClass=function(){function defineProperties(target,props){for(var i=0;i<props.length;i++){var descriptor=props[i];descriptor.enumerable=descriptor.enumerable||false;descriptor.configurable=true;if("value" in descriptor)descriptor.writable=true;Object.defineProperty(target,descriptor.key,descriptor);}}return function(Constructor,protoProps,staticProps){if(protoProps)defineProperties(Constructor.prototype,protoProps);if(staticProps)defineProperties(Constructor,staticProps);return Constructor;};}();
+'use strict';var _extends=Object.assign||function(target){for(var i=1;i<arguments.length;i++){var source=arguments[i];for(var key in source){if(Object.prototype.hasOwnProperty.call(source,key)){target[key]=source[key];}}}return target;};var _createClass=function(){function defineProperties(target,props){for(var i=0;i<props.length;i++){var descriptor=props[i];descriptor.enumerable=descriptor.enumerable||false;descriptor.configurable=true;if("value"in descriptor)descriptor.writable=true;Object.defineProperty(target,descriptor.key,descriptor);}}return function(Constructor,protoProps,staticProps){if(protoProps)defineProperties(Constructor.prototype,protoProps);if(staticProps)defineProperties(Constructor,staticProps);return Constructor;};}();
 
 
 
@@ -44,7 +44,7 @@
 
 
 
-var _reactAddonsPureRenderMixin=require('react-addons-pure-render-mixin');var _reactAddonsPureRenderMixin2=_interopRequireDefault(_reactAddonsPureRenderMixin);function _interopRequireDefault(obj){return obj&&obj.__esModule?obj:{default:obj};}function _objectWithoutProperties(obj,keys){var target={};for(var i in obj){if(keys.indexOf(i)>=0)continue;if(!Object.prototype.hasOwnProperty.call(obj,i))continue;target[i]=obj[i];}return target;}function _classCallCheck(instance,Constructor){if(!(instance instanceof Constructor)){throw new TypeError("Cannot call a class as a function");}}function _possibleConstructorReturn(self,call){if(!self){throw new ReferenceError("this hasn't been initialised - super() hasn't been called");}return call&&(typeof call==="object"||typeof call==="function")?call:self;}function _inherits(subClass,superClass){if(typeof superClass!=="function"&&superClass!==null){throw new TypeError("Super expression must either be null or a function, not "+typeof superClass);}subClass.prototype=Object.create(superClass&&superClass.prototype,{constructor:{value:subClass,enumerable:false,writable:true,configurable:true}});if(superClass)Object.setPrototypeOf?Object.setPrototypeOf(subClass,superClass):subClass.__proto__=superClass;}var NavigationCardStackPanResponder=require('./NavigationCardStackPanResponder');var NavigationCardStackStyleInterpolator=require('./NavigationCardStackStyleInterpolator');var NavigationPointerEventsContainer=require('./NavigationPointerEventsContainer');var NavigationPropTypes=require('./NavigationPropTypes');var React=require('react');var _require=require('react-native');var Animated=_require.Animated;var StyleSheet=_require.StyleSheet;var View=_require.View;var 
+var _reactAddonsPureRenderMixin=require('react-addons-pure-render-mixin');var _reactAddonsPureRenderMixin2=_interopRequireDefault(_reactAddonsPureRenderMixin);function _interopRequireDefault(obj){return obj&&obj.__esModule?obj:{default:obj};}function _objectWithoutProperties(obj,keys){var target={};for(var i in obj){if(keys.indexOf(i)>=0)continue;if(!Object.prototype.hasOwnProperty.call(obj,i))continue;target[i]=obj[i];}return target;}function _classCallCheck(instance,Constructor){if(!(instance instanceof Constructor)){throw new TypeError("Cannot call a class as a function");}}function _possibleConstructorReturn(self,call){if(!self){throw new ReferenceError("this hasn't been initialised - super() hasn't been called");}return call&&(typeof call==="object"||typeof call==="function")?call:self;}function _inherits(subClass,superClass){if(typeof superClass!=="function"&&superClass!==null){throw new TypeError("Super expression must either be null or a function, not "+typeof superClass);}subClass.prototype=Object.create(superClass&&superClass.prototype,{constructor:{value:subClass,enumerable:false,writable:true,configurable:true}});if(superClass)Object.setPrototypeOf?Object.setPrototypeOf(subClass,superClass):subClass.__proto__=superClass;}var NavigationCardStackPanResponder=require('./NavigationCardStackPanResponder');var NavigationCardStackStyleInterpolator=require('./NavigationCardStackStyleInterpolator');var NavigationPointerEventsContainer=require('./NavigationPointerEventsContainer');var NavigationPropTypes=require('./NavigationPropTypes');var React=require('react');var _require=require('react-native');var Animated=_require.Animated;var StyleSheet=_require.StyleSheet;var View=_require.View;var
 
 
 
@@ -65,9 +65,9 @@ var _reactAddonsPureRenderMixin=require('react-addons-pure-render-mixin');var _r
 
 
 
-PropTypes=React.PropTypes;var 
+PropTypes=React.PropTypes;var
 
-SceneView=function(_React$Component){_inherits(SceneView,_React$Component);function SceneView(){_classCallCheck(this,SceneView);return _possibleConstructorReturn(this,Object.getPrototypeOf(SceneView).apply(this,arguments));}_createClass(SceneView,[{key:'shouldComponentUpdate',value:function shouldComponentUpdate(
+SceneView=function(_React$Component){_inherits(SceneView,_React$Component);function SceneView(){_classCallCheck(this,SceneView);return _possibleConstructorReturn(this,(SceneView.__proto__||Object.getPrototypeOf(SceneView)).apply(this,arguments));}_createClass(SceneView,[{key:'shouldComponentUpdate',value:function shouldComponentUpdate(
 
 
 
@@ -75,21 +75,21 @@ SceneView=function(_React$Component){_inherits(SceneView,_React$Component);funct
 
 
 nextProps,nextState){
-return (
+return(
 nextProps.sceneRendererProps.scene.navigationState!==
-this.props.sceneRendererProps.scene.navigationState);}},{key:'render',value:function render()
+this.props.sceneRendererProps.scene.navigationState);
 
-
+}},{key:'render',value:function render()
 
 {
-return this.props.sceneRenderer(this.props.sceneRendererProps);}}]);return SceneView;}(React.Component);
-
+return this.props.sceneRenderer(this.props.sceneRendererProps);
+}}]);return SceneView;}(React.Component);
 
 
 /**
  * Component that renders the scene as card for the <NavigationCardStack />.
- */SceneView.propTypes={sceneRenderer:PropTypes.func.isRequired,sceneRendererProps:NavigationPropTypes.SceneRenderer};var 
-NavigationCard=function(_React$Component2){_inherits(NavigationCard,_React$Component2);function NavigationCard(){_classCallCheck(this,NavigationCard);return _possibleConstructorReturn(this,Object.getPrototypeOf(NavigationCard).apply(this,arguments));}_createClass(NavigationCard,[{key:'shouldComponentUpdate',value:function shouldComponentUpdate(
+ */SceneView.propTypes={sceneRenderer:PropTypes.func.isRequired,sceneRendererProps:NavigationPropTypes.SceneRenderer};var
+NavigationCard=function(_React$Component2){_inherits(NavigationCard,_React$Component2);function NavigationCard(){_classCallCheck(this,NavigationCard);return _possibleConstructorReturn(this,(NavigationCard.__proto__||Object.getPrototypeOf(NavigationCard)).apply(this,arguments));}_createClass(NavigationCard,[{key:'shouldComponentUpdate',value:function shouldComponentUpdate(
 
 
 
@@ -105,9 +105,9 @@ nextProps,nextState){
 return _reactAddonsPureRenderMixin2.default.shouldComponentUpdate.call(
 this,
 nextProps,
-nextState);}},{key:'render',value:function render()
+nextState);
 
-
+}},{key:'render',value:function render()
 
 {var _props=
 
@@ -115,7 +115,7 @@ nextState);}},{key:'render',value:function render()
 
 
 
-/* NavigationSceneRendererProps */
+
 this.props;var panHandlers=_props.panHandlers;var pointerEvents=_props.pointerEvents;var renderScene=_props.renderScene;var style=_props.style;var props=_objectWithoutProperties(_props,['panHandlers','pointerEvents','renderScene','style']);
 
 var viewStyle=style===undefined?
@@ -126,7 +126,7 @@ var viewPanHandlers=panHandlers===undefined?
 NavigationCardStackPanResponder.forHorizontal(props):
 panHandlers;
 
-return (
+return(
 React.createElement(Animated.View,_extends({},
 viewPanHandlers,{
 pointerEvents:pointerEvents,
@@ -134,11 +134,11 @@ ref:this.props.onComponentRef,
 style:[styles.main,viewStyle]}),
 React.createElement(SceneView,{
 sceneRenderer:renderScene,
-sceneRendererProps:props})));}}]);return NavigationCard;}(React.Component);NavigationCard.propTypes=_extends({},NavigationPropTypes.SceneRenderer,{onComponentRef:PropTypes.func.isRequired,panHandlers:NavigationPropTypes.panHandlers,pointerEvents:PropTypes.string.isRequired,renderScene:PropTypes.func.isRequired,style:PropTypes.any});
+sceneRendererProps:props})));
 
 
 
-
+}}]);return NavigationCard;}(React.Component);NavigationCard.propTypes=_extends({},NavigationPropTypes.SceneRenderer,{onComponentRef:PropTypes.func.isRequired,panHandlers:NavigationPropTypes.panHandlers,pointerEvents:PropTypes.string.isRequired,renderScene:PropTypes.func.isRequired,style:PropTypes.any});
 
 
 var styles=StyleSheet.create({
