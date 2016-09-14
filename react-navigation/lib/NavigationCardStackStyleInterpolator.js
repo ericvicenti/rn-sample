@@ -53,7 +53,7 @@
 /**
  * Render the initial style when the initial layout isn't measured yet.
  */
-function forInitial(props){var 
+function forInitial(props){var
 
 navigationState=
 
@@ -63,16 +63,16 @@ var focused=navigationState.index===scene.index;
 var opacity=focused?1:0;
 // If not focused, move the scene to the far away.
 var translate=focused?0:1000000;
-return {
+return{
 opacity:opacity,
 transform:[
 {translateX:translate},
-{translateY:translate}]};}
+{translateY:translate}]};
 
 
+}
 
-
-function forHorizontal(props){var 
+function forHorizontal(props){var
 
 layout=
 
@@ -80,8 +80,8 @@ layout=
 props.layout;var position=props.position;var scene=props.scene;
 
 if(!layout.isMeasured){
-return forInitial(props);}
-
+return forInitial(props);
+}
 
 var index=scene.index;
 var inputRange=[index-1,index,index+1];
@@ -113,7 +113,7 @@ inputRange:inputRange,
 outputRange:[width,0,-10]});
 
 
-return {
+return{
 opacity:opacity,
 // position: 'absolute',
 // left: 100,
@@ -123,12 +123,12 @@ opacity:opacity,
 transform:[
 {scale:scale},
 {translateX:translateX},
-{translateY:translateY}]};}
+{translateY:translateY}]};
 
 
+}
 
-
-function forVertical(props){var 
+function forVertical(props){var
 
 layout=
 
@@ -136,8 +136,8 @@ layout=
 props.layout;var position=props.position;var scene=props.scene;
 
 if(!layout.isMeasured){
-return forInitial(props);}
-
+return forInitial(props);
+}
 
 var index=scene.index;
 var inputRange=[index-1,index,index+1];
@@ -159,15 +159,15 @@ inputRange:inputRange,
 outputRange:[height,0,-10]});
 
 
-return {
+return{
 opacity:opacity,
 transform:[
 {scale:scale},
 {translateX:translateX},
-{translateY:translateY}]};}
+{translateY:translateY}]};
 
 
-
+}
 
 module.exports={
 forHorizontal:forHorizontal,

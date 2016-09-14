@@ -22,7 +22,7 @@
  */var _require=
 
 require('react-native');var Animated=_require.Animated;
-var React=require('react');var 
+var React=require('react');var
 
 PropTypes=React.PropTypes;
 
@@ -95,15 +95,15 @@ onStartShouldSetResponderCapture:PropTypes.func.isRequired});
 function extractSceneRendererProps(
 props)
 {
-return {
+return{
 layout:props.layout,
 navigationState:props.navigationState,
 onNavigate:props.onNavigate,
 position:props.position,
 scene:props.scene,
-scenes:props.scenes};}
+scenes:props.scenes};
 
-
+}
 
 module.exports={
 // helpers

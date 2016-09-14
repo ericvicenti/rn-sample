@@ -16,48 +16,42 @@
 'use strict';
 
 var React=require('react');
-var ReactNative=require('react-native');var 
+var ReactNative=require('react-native');
 
-
-Image=
-
-
-
-ReactNative.Image;var Platform=ReactNative.Platform;var StyleSheet=ReactNative.StyleSheet;var TouchableOpacity=ReactNative.TouchableOpacity;
-
-
-
+var Image = ReactNative.Image;
+var Platform=ReactNative.Platform;
+var StyleSheet=ReactNative.StyleSheet;
+var TouchableOpacity=ReactNative.TouchableOpacity;
 
 var backBtnSource={
-uri:'https://raw.githubusercontent.com/facebook/react-native/master/Libraries/CustomComponents/NavigationExperimental/assets/back-icon%401x.ios.png'};
-
+  uri:'https://raw.githubusercontent.com/facebook/react-native/master/Libraries/CustomComponents/NavigationExperimental/assets/back-icon%401x.ios.png'
+};
 
 if(Platform.OS!=='web'){
-backBtnSource=require('./assets/back-icon.png');}
+  backBtnSource=require('./assets/back-icon.png');
+}
 
-
-var NavigationHeaderBackButton=function NavigationHeaderBackButton(props){return (
-React.createElement(TouchableOpacity,{style:styles.buttonContainer,onPress:props.onBackPress},
-React.createElement(Image,{style:styles.button,source:backBtnSource})));};
-
-
+var NavigationHeaderBackButton = function NavigationHeaderBackButton(props){
+  return(
+    React.createElement(TouchableOpacity,{style:styles.buttonContainer,onPress:props.onBackPress},
+    React.createElement(Image,{style:styles.button,source:backBtnSource})));
+};
 
 NavigationHeaderBackButton.propTypes={};
 
-
 var styles=StyleSheet.create({
-buttonContainer:{
-flex:1,
-flexDirection:'row',
-alignItems:'center',
-justifyContent:'center'},
+  buttonContainer:{
+    flex:1,
+    flexDirection:'row',
+    alignItems:'center',
+    justifyContent:'center'
+  },
 
-button:{
-height:24,
-width:24,
-margin:Platform.OS==='ios'?10:16}});
-// resizeMode: 'contain'
-
-
+  button:{
+    height:24,
+    width:24,
+    margin:Platform.OS==='ios'?10:16
+  }
+});
 
 module.exports=NavigationHeaderBackButton;

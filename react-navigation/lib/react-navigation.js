@@ -1,5 +1,5 @@
-module.
-exports={
+
+module.exports={
 StateUtils:require('./NavigationStateUtils'),
 AnimatedView:require('./NavigationAnimatedView'),
 Card:require('./NavigationCard'),

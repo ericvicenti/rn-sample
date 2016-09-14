@@ -29,7 +29,7 @@ onPanResponderTerminate:null};
 /**
  * Abstract class that defines the common interface of PanResponder that handles
  * the gesture actions.
- */var 
+ */var
 NavigationAbstractPanResponder=
 
 
@@ -45,11 +45,11 @@ typeof fn==='function',
 name);
 
 
-config[name]=fn.bind(_this);},
-this);
+config[name]=fn.bind(_this);
+},this);
 
-this.panHandlers=PanResponder.create(config).panHandlers;};
-
+this.panHandlers=PanResponder.create(config).panHandlers;
+};
 
 
 module.exports=NavigationAbstractPanResponder;

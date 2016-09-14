@@ -23,6 +23,7 @@
   },
   "devDependencies": {
     "babel-loader": "^6.2.4",
+    "url-loader": "^0.5.7",
     "webpack": "^1.12.14",
     "webpack-dev-server": "^1.14.1",
     "webpack-livereload-plugin": "^0.7.0"
